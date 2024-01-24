@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTodoDto } from './dto/create-todo.dto';
-import { UpdateTodoDto } from './dto/update-todo.dto';
+import {  UpdateTodoDto } from './dto/update-todo.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 
 @Injectable()
-export class TodoService {
+export class TodoRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   getTodo(){
@@ -18,7 +18,7 @@ export class TodoService {
 
   updateTodo(id: number, updateData: UpdateTodoDto){
     return this.prisma.todo.update({
-      where: {id},
+      where: {id: id},
       data: {
         title: updateData.title,
         description: updateData.description
@@ -26,12 +26,19 @@ export class TodoService {
     })
   }
 
-  updateStatus(id: number, newStatus: boolean){
+  updateStatus(id:  number, status: boolean){
+    
     return this.prisma.todo.update({
-      where: {id},
+      where: {id: id},
       data: {
-        status: newStatus,
-      }
+        status: status,
+      },
+    })
+  }
+
+  deleteOne(id: number){
+    return this.prisma.todo.delete({
+      where: {id}
     })
   }
 }

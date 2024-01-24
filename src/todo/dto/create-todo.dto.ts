@@ -9,7 +9,7 @@ export class CreateTodoDto {
 
   @IsNotEmpty()
   @IsDateString()
-  dueDate: Date;
+  dueDate: string;
 
   @IsBoolean()
   status: boolean;
