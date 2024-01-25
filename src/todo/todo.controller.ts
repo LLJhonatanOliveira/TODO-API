@@ -14,7 +14,8 @@ export class TodoController {
 
   @Get('get-todo')
   async getTodo(
-    @Query('page') page: number
+    @Query('page') page: number,
+    @Query('filter') filterTerm: string | undefined,
   ) {
     const startIndex = (page - 1)*5
     const endIndex = startIndex + 5;
@@ -23,7 +24,8 @@ export class TodoController {
 
     const todos = await this.todoService.getTodos(
       startIndex,
-      5
+      5, 
+      filterTerm,
     );
     return {
       data: todos,
