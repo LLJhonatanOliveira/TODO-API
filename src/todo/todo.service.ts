@@ -16,8 +16,8 @@ export class TodoService {
     return await this.repository.getTodo();
   }
 
-  async getTodos( skip: number, take: number ) {
-    return await this.repository.getTodos(skip, take);
+  async getTodos( skip: number, take: number, filterTerm: string | undefined ) {
+    return await this.repository.getTodos(skip, take, filterTerm);
   }
   
   async updateStatus(id: number, status: boolean) {
