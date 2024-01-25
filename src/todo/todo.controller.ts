@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateStatusDto, UpdateTodoDto } from './dto/update-todo.dto';
@@ -13,12 +13,30 @@ export class TodoController {
   }
 
   @Get('get-todo')
-  async getTodo() {
-    return await this.todoService.getTodo();
+  async getTodo(
+    @Query('page') page: number
+  ) {
+    const startIndex = (page - 1)*5
+    const endIndex = startIndex + 5;
+    
+    const totalTodos = await this.todoService.getTodo()
+
+    const todos = await this.todoService.getTodos(
+      startIndex,
+      5
+    );
+    return {
+      data: todos,
+      pagination: {
+        currentPage: page,
+        totalPages: Math.ceil(totalTodos / 5)
+      }
+    }
   }
 
   @Patch('update-status/:id')
   async updateStatus(@Param('id') id: string, @Body() updateStatusDto: UpdateStatusDto) {
+    console.log(updateStatusDto)
     return await this.todoService.updateStatus(+id, updateStatusDto.status);
   }
 
