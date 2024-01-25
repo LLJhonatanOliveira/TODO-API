@@ -11,7 +11,5 @@ export class CreateTodoDto {
   @IsDateString()
   dueDate: string;
 
-  @IsBoolean()
-  status: boolean;
 }
 

@@ -6,10 +6,21 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class TodoRepository {
+  
   constructor(private readonly prisma: PrismaService) {}
 
   getTodo(){
-    return this.prisma.todo.findMany()
+    return this.prisma.todo.count({
+      
+    })
+  }
+  getTodos(skip: number, take: number){
+  return this.prisma.todo.findMany({
+  skip, take,
+  orderBy: {
+    id: 'asc'
+  }
+})
   }
 
   createTodo(body: CreateTodoDto){
@@ -31,7 +42,7 @@ export class TodoRepository {
     return this.prisma.todo.update({
       where: {id: id},
       data: {
-        status: status,
+        status: !status,
       },
     })
   }

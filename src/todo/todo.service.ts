@@ -5,6 +5,7 @@ import { TodoRepository } from './todo.repository';
 
 @Injectable()
 export class TodoService {
+  
   constructor(private readonly repository: TodoRepository) {}
 
   async create(body: CreateTodoDto) {
@@ -15,6 +16,10 @@ export class TodoService {
     return await this.repository.getTodo();
   }
 
+  async getTodos( skip: number, take: number ) {
+    return await this.repository.getTodos(skip, take);
+  }
+  
   async updateStatus(id: number, status: boolean) {
     return await this.repository.updateStatus(id, status);
   }
